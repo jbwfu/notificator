@@ -13,10 +13,10 @@ func main() {
 		AppName:     "My test App",
 	})
 
-	notify.Push("title", "text", "/home/user/icon.png", notificator.UR_NORMAL)
+	notify.Push(notificator.UrNormal, "title", "text", "/home/user/icon.png", "https://github.com/anhoder/go-musicfox")
 
 	// Check errors
-	err := notify.Push("error", "ops =(", "/home/user/icon.png", notificator.UR_CRITICAL)
+	err := notify.Push(notificator.UrCritical, "error", "ops =(", "/home/user/icon.png", "https://github.com/anhoder/go-musicfox")
 
 	if err != nil {
 		log.Fatal(err)

@@ -26,7 +26,7 @@ func main() {
     AppName:     "My test App",
   })
 
-  notify.Push("title", "text", "/home/user/icon.png", notificator.UR_CRITICAL)
+  notify.Push(notificator.UrNormal, "title", "text", "/home/user/icon.png", "https://github.com/anhoder/go-musicfox")
 }
 ```
 
@@ -42,8 +42,3 @@ TODO
   * Make changes;
   * Send pull request;
   * Thank you.
-
-author
-----------
-
-[@0xAX](https://twitter.com/0xAX)
