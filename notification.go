@@ -11,6 +11,7 @@ import (
 type Options struct {
 	DefaultIcon string
 	AppName     string
+	OSXSender   string
 }
 
 const (
@@ -45,6 +46,7 @@ func (n Notificator) Push(urgency string, title string, text string, iconPath st
 
 type osxNotificator struct {
 	AppName string
+	Sender  string
 }
 
 func (o osxNotificator) push(title string, text string, iconPath string, redirectUrl string) *exec.Cmd {
@@ -55,9 +57,9 @@ func (o osxNotificator) push(title string, text string, iconPath string, redirec
 	// else, fall back to osascript. (Mavericks and later.)
 	if CheckTermNotif() {
 		if redirectUrl != "" {
-			return exec.Command("terminal-notifier", "-title", o.AppName, "-message", text, "-subtitle", title, "-contentImage", iconPath, "-open", redirectUrl)
+			return exec.Command("terminal-notifier", "-title", o.AppName, "-message", text, "-subtitle", title, "-contentImage", iconPath, "-open", redirectUrl, "-sender", o.Sender)
 		}
-		return exec.Command("terminal-notifier", "-title", o.AppName, "-message", text, "-subtitle", title, "-contentImage", iconPath)
+		return exec.Command("terminal-notifier", "-title", o.AppName, "-message", text, "-subtitle", title, "-contentImage", iconPath, "-sender", o.Sender)
 	} else if CheckMacOSVersion() {
 		title = strings.Replace(title, `"`, `\"`, -1)
 		text = strings.Replace(text, `"`, `\"`, -1)
@@ -78,10 +80,10 @@ func (o osxNotificator) pushCritical(title string, text string, iconPath string,
 	if CheckTermNotif() {
 		// timeout set to 30 seconds, to show the importance of the notification
 		if redirectUrl != "" {
-			return exec.Command("terminal-notifier", "-title", o.AppName, "-message", text, "-subtitle", title, "-contentImage", iconPath, "-timeout", "30", "-open", redirectUrl)
+			return exec.Command("terminal-notifier", "-title", o.AppName, "-message", text, "-subtitle", title, "-contentImage", iconPath, "-timeout", "30", "-open", redirectUrl, "-sender", o.Sender)
 		}
 
-		return exec.Command("terminal-notifier", "-title", o.AppName, "-message", text, "-subtitle", title, "-contentImage", iconPath, "-timeout", "30")
+		return exec.Command("terminal-notifier", "-title", o.AppName, "-message", text, "-subtitle", title, "-contentImage", iconPath, "-timeout", "30", "-sender", o.Sender)
 	} else if CheckMacOSVersion() {
 		notification := fmt.Sprintf("display notification \"%s\" with title \"%s\" subtitle \"%s\"", text, o.AppName, title)
 		return exec.Command("osascript", "-e", notification)
@@ -120,7 +122,7 @@ func New(o Options) *Notificator {
 	switch runtime.GOOS {
 
 	case "darwin":
-		Notifier = osxNotificator{AppName: o.AppName}
+		Notifier = osxNotificator{AppName: o.AppName, Sender: o.OSXSender}
 	case "linux":
 		Notifier = linuxNotificator{}
 	case "windows":

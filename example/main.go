@@ -1,7 +1,7 @@
 package main
 
 import (
-	"../../notificator"
+	"github.com/anhoder/notificator"
 	"log"
 )
 
@@ -11,6 +11,7 @@ func main() {
 	notify = notificator.New(notificator.Options{
 		DefaultIcon: "icon/default.png",
 		AppName:     "My test App",
+		OSXSender:   "com.netease.163music",
 	})
 
 	notify.Push(notificator.UrNormal, "title", "text", "/home/user/icon.png", "https://github.com/anhoder/go-musicfox")
