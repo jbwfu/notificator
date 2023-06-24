@@ -1,8 +1,9 @@
 package main
 
 import (
-	"github.com/anhoder/notificator"
 	"log"
+
+	"github.com/go-musicfox/notificator"
 )
 
 var notify *notificator.Notificator
@@ -14,10 +15,10 @@ func main() {
 		OSXSender:   "com.netease.163music",
 	})
 
-	notify.Push(notificator.UrNormal, "title", "text", "/home/user/icon.png", "https://github.com/anhoder/go-musicfox")
+	notify.Push(notificator.UrNormal, "title", "text", "/home/user/icon.png", "https://github.com/go-musicfox/go-musicfox")
 
 	// Check errors
-	err := notify.Push(notificator.UrCritical, "error", "ops =(", "/home/user/icon.png", "https://github.com/anhoder/go-musicfox")
+	err := notify.Push(notificator.UrCritical, "error", "ops =(", "/home/user/icon.png", "https://github.com/go-musicfox/go-musicfox")
 
 	if err != nil {
 		log.Fatal(err)
