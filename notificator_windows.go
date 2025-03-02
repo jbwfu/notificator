@@ -9,11 +9,10 @@ import (
 type windowsNotificator struct{}
 
 func New(o Options) *Notificator {
-	var Notifier notifier
-
-	Notifier = windowsNotificator{}
-
-	return &Notificator{notifier: Notifier, defaultIcon: o.DefaultIcon}
+	return &Notificator{
+		notifier:    windowsNotificator{},
+		defaultIcon: o.DefaultIcon,
+	}
 }
 
 func (w windowsNotificator) push(title string, text string, iconPath string, redirectUrl string) error {

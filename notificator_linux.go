@@ -11,11 +11,10 @@ type linuxNotificator struct {
 }
 
 func New(o Options) *Notificator {
-	var Notifier notifier
-
-	Notifier = linuxNotificator{AppName: o.AppName}
-
-	return &Notificator{notifier: Notifier, defaultIcon: o.DefaultIcon}
+	return &Notificator{
+		notifier:    linuxNotificator{AppName: o.AppName},
+		defaultIcon: o.DefaultIcon,
+	}
 }
 
 func (l linuxNotificator) push(title string, text string, iconPath string, redirectUrl string) error {

@@ -15,11 +15,10 @@ type osxNotificator struct {
 }
 
 func New(o Options) *Notificator {
-	var Notifier notifier
-
-	Notifier = osxNotificator{AppName: o.AppName, Sender: o.OSXSender}
-
-	return &Notificator{notifier: Notifier, defaultIcon: o.DefaultIcon}
+	return &Notificator{
+		notifier:    osxNotificator{AppName: o.AppName, Sender: o.OSXSender},
+		defaultIcon: o.DefaultIcon,
+	}
 }
 
 func (o osxNotificator) push(title string, text string, iconPath string, redirectUrl string) error {
