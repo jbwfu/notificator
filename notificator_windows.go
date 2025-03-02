@@ -2,7 +2,9 @@
 
 package notificator
 
-import "os/exec"
+import (
+	"github.com/gen2brain/beeep"
+)
 
 type windowsNotificator struct{}
 
@@ -14,11 +16,11 @@ func New(o Options) *Notificator {
 	return &Notificator{notifier: Notifier, defaultIcon: o.DefaultIcon}
 }
 
-func (w windowsNotificator) push(title string, text string, iconPath string, redirectUrl string) *exec.Cmd {
-	return exec.Command("growlnotify", "/i:", iconPath, "/t:", title, text)
+func (w windowsNotificator) push(title string, text string, iconPath string, redirectUrl string) error {
+	return beeep.Notify(title, text, iconPath)
 }
 
 // Causes the notification to stick around until clicked.
-func (w windowsNotificator) pushCritical(title string, text string, iconPath string, redirectUrl string) *exec.Cmd {
-	return exec.Command("growlnotify", "/i:", iconPath, "/t:", title, text, "/s", "true", "/p", "2")
+func (w windowsNotificator) pushCritical(title string, text string, iconPath string, redirectUrl string) error {
+	return beeep.Notify(title, text, iconPath)
 }
